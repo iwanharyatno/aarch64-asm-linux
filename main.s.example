@@ -1,0 +1,16 @@
+.global _start
+.align 8
+.data
+    text:       .ascii      "Hello, AARCH64 Assembly!"
+    text_len=   . - text
+
+.include "io.s"
+
+.text
+    _start:
+        ldr     x1, =text
+        ldr     x2, =text_len
+        bl      println
+
+        mov     x0, #0
+        bl      exit
