@@ -16,6 +16,7 @@ File io.s:
 File utils.s:
 - str2UInt, untuk mengubah string ke bilangan bulat positif
 - strBin2UInt, untuk mengubah string biner ke bilangan bulat positif
+- toUpper, untuk mengubah string ke upper-case
 
 File list.s:
 - ladd, untuk menambahkan item ke dalam list.
