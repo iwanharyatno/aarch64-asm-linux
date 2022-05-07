@@ -38,16 +38,29 @@
         ldp     x29, x30, [sp], #16
         ret
 
-    printUInt:
+    printInt:
         stp     x29, x30, [sp, #-16]!
         stp     x5, x7, [sp, #-16]!
         stp     x2, x3, [sp, #-16]!
         stp     x0, x1, [sp, #-16]!
+        str     x4, [sp, #-16]!
 
         mov     x7, #10
         mov     x5, #0
         sub     sp, sp, #128
-    printUInt_Count:
+
+        and     x4, x0, #0x8000000000000000
+        cmp     x4, #0
+        beq     printInt_Count
+
+        mov     x4, #'-'
+        ldr     x1, =char
+        strb    w4, [x1]
+        mov     x2, #1
+        bl      print
+
+        neg     x0, x0
+    printInt_Count:
         udiv    x2, x0, x7
         msub    x3, x2, x7, x0
         add     x5, x5, #1
@@ -55,8 +68,8 @@
         mov     x0, x2
 
         cmp     x0, #0
-        bne     printUInt_Count
-    printUInt_Print:
+        bne     printInt_Count
+    printInt_Print:
         ldr     x1, =char
         ldrb    w3, [sp, x5]
         add     w3, w3, #48
@@ -65,7 +78,7 @@
         bl      print
 
         subs    x5, x5, #1
-        bne     printUInt_Print
+        bne     printInt_Print
 
         ldr     x1, =newline
         mov     x2, #1
@@ -73,6 +86,7 @@
 
         add     sp, sp, #128
 
+        ldr     x4, [sp], #16
         ldp     x0, x1, [sp], #16
         ldp     x2, x3, [sp], #16
         ldp     x5, x7, [sp], #16

@@ -7,7 +7,7 @@ Kompilasi kode assembly aarch64 di linux.
 File io.s:
 - print, untuk mencetak teks ke layar
 - println, untuk mencetak teks ke layar dengan baris baru
-- printUInt, untuk mencetak bilangan bulat positif ke layar
+- printInt, untuk mencetak bilangan bulat ke layar
 - printHex, untuk mencetak nilai ke layar sebagai heksadesimal
 - printBin, untuk mencetak nilai ke layar sebagai biner
 - inputSTDIN, untuk mengambil input dari standard input (keyboard)
