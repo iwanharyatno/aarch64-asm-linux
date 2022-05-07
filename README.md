@@ -20,4 +20,4 @@ File utils.s:
 File list.s:
 - ladd, untuk menambahkan item ke dalam list.
 - lprint, untuk mencetak semua item dalam list.
-- lget, untuk mendapatkan item dari list (indeks dimulai dari 1).
+- lget, untuk mendapatkan item dari list (indeks dimulai dari 0).
