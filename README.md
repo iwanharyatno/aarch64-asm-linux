@@ -7,6 +7,7 @@ Kompilasi kode assembly aarch64 di linux.
 File io.s:
 - print, untuk mencetak teks ke layar
 - println, untuk mencetak teks ke layar dengan baris baru
+- printReverse, untuk mencetak teks dengan urutan terbalik ke layar (dengan baris baru)
 - printInt, untuk mencetak bilangan bulat ke layar
 - printHex, untuk mencetak nilai ke layar sebagai heksadesimal
 - printBin, untuk mencetak nilai ke layar sebagai biner

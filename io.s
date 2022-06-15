@@ -38,6 +38,28 @@
         ldp     x29, x30, [sp], #16
         ret
 
+    printReverse:
+        stp     x29, x30, [sp, #-16]!
+        stp     x2, x3, [sp, #-16]!
+        stp     x0, x1, [sp, #-16]!
+
+        mov     x0, x1
+        sub     x0, x0, #1
+        add     x1, x1, x2
+        mov     x2, #1
+    printReverse_loop:
+        bl      print
+
+        subs    x1, x1, #1
+
+        cmp     x1, x0
+        bne     printReverse_loop
+
+        ldp     x0, x1, [sp], #16
+        ldp     x2, x3, [sp], #16
+        ldp     x29, x30, [sp], #16
+        ret
+
     printInt:
         stp     x29, x30, [sp, #-16]!
         stp     x5, x7, [sp, #-16]!
