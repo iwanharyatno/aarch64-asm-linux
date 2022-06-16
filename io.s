@@ -7,9 +7,9 @@
 
 .text
     print:
-        stp     x29, x30, [sp, #-16]!
-        stp     x2, x8, [sp, #-16]!
-        stp     x0, x1, [sp, #-16]!
+        stp     x29, x30, [sp, #-16]!       // x29, x30: Frame pointer and Stack pointer
+        stp     x2, x8, [sp, #-16]!         // x2: Buffer length, x8: Interruption code
+        stp     x0, x1, [sp, #-16]!         // x0: File descriptor, x1: Buffer pointer
 
         mov     x0, #1
         mov     x8, #64
@@ -21,9 +21,9 @@
         ret
 
     println:
-        stp     x29, x30, [sp, #-16]!
-        stp     x2, x8, [sp, #-16]!
-        stp     x0, x1, [sp, #-16]!
+        stp     x29, x30, [sp, #-16]!       // x29, x30: Frame pointer and Stack pointer
+        stp     x2, x8, [sp, #-16]!         // x2: Buffer length, x8: Interruption code
+        stp     x0, x1, [sp, #-16]!         // x0: File descriptor, x1: Buffer pointer
 
         mov     x0, #1
         mov     x8, #64
@@ -39,9 +39,9 @@
         ret
 
     printReverse:
-        stp     x29, x30, [sp, #-16]!
-        stp     x2, x3, [sp, #-16]!
-        stp     x0, x1, [sp, #-16]!
+        stp     x29, x30, [sp, #-16]!       // x29, x30: Frame pointer and Stack pointer
+        str     x2, [sp, #-16]!             // x2: Buffer length
+        stp     x0, x1, [sp, #-16]!         // x0: Initial Buffer pointer (-1), x1: Buffer pointer + x2
 
         mov     x0, x1
         sub     x0, x0, #1
@@ -56,15 +56,15 @@
         bne     printReverse_loop
 
         ldp     x0, x1, [sp], #16
-        ldp     x2, x3, [sp], #16
+        ldr     x2, [sp], #16
         ldp     x29, x30, [sp], #16
         ret
 
     printInt:
-        stp     x29, x30, [sp, #-16]!
-        stp     x5, x7, [sp, #-16]!
-        stp     x2, x3, [sp, #-16]!
-        stp     x0, x1, [sp, #-16]!
+        stp     x29, x30, [sp, #-16]!       // x29, x30: Frame pointer and Stack pointer
+        stp     x5, x7, [sp, #-16]!         // x5: Number Stack offset, x7: The divisor (10)
+        stp     x2, x3, [sp, #-16]!         // x2: Char length (always 1) and division result register, x3: Modulo register
+        stp     x0, x1, [sp, #-16]!         // x0: Input number, x1: Decimal Char pointer
         str     x4, [sp, #-16]!
 
         mov     x7, #10
@@ -116,10 +116,10 @@
         ret
 
     printHex:
-        stp     x29, x30, [sp, #-16]!
-        stp     x4, x5, [sp, #-16]!
-        stp     x2, x3, [sp, #-16]!
-        stp     x0, x1, [sp, #-16]!
+        stp     x29, x30, [sp, #-16]!       // x29, x30: Frame pointer and Stack pointer
+        stp     x4, x5, [sp, #-16]!         // x4: Non-zero value flag, x5: Nibble counter
+        stp     x2, x3, [sp, #-16]!         // x2: Buffer length (1), x3: Nibble register
+        stp     x0, x1, [sp, #-16]!         // x0: Input number, x1: Buffer pointer
 
         ldr     x1, =hexPrefix
         mov     x2, #2
@@ -165,10 +165,10 @@
         ret
 
     printBin:
-        stp     x29, x30, [sp, #-16]!
-        stp     x4, x5, [sp, #-16]!
-        stp     x2, x3, [sp, #-16]!
-        stp     x0, x1, [sp, #-16]!
+        stp     x29, x30, [sp, #-16]!       // x29, x30: Frame pointer and Stack pointer
+        stp     x4, x5, [sp, #-16]!         // x4: Non-zero value flag, x5: Bit counter
+        stp     x2, x3, [sp, #-16]!         // x2: Buffer length (1), x3: Bit register
+        stp     x0, x1, [sp, #-16]!         // x0: Input number, x1: Buffer pointer
 
         ldr     x1, =binPrefix
         mov     x2, #2
@@ -211,16 +211,16 @@
         ldp     x29, x30, [sp], #16
         ret
 
-    inputSTDIN:
-        stp     x29, x30, [sp, #-16]!
-        stp     x2, x8, [sp, #-16]!
+    inputSTDIN:                
+        stp     x29, x30, [sp, #-16]!       // x29, x30: Frame register and Stack pointer
+        stp     x2, x8, [sp, #-16]!         // x2: Newline char pointer, x8: Interrupt code
 
-        mov     x0, #0
+        mov     x0, #0                      // x0: As a file descriptor register
         mov     x8, #63
         svc     #0
 
-        sub     x0, x0, #1
-        ldrb    w2, [x1, x0]
+        sub     x0, x0, #1                  // x0: As a input buffer length
+        ldrb    w2, [x1, x0]                // x1: Input buffer pointer
         cmp     w2, #'\n'
         beq     inputSTDIN_Exit
         add     x0, x0, #1
